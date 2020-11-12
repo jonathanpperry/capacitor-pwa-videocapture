@@ -44,6 +44,7 @@ export class VideoService {
       reader.readAsDataURL(blob);
     });
 
+  // Load video as base64 from url
   async getVideoUrl(fullPath) {
     const path = fullPath.substr(fullPath.lastIndexOf("/") + 1);
     const file = await Filesystem.readFile({

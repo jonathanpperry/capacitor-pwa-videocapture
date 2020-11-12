@@ -51,20 +51,27 @@ export class HomePage implements AfterViewInit {
     this.mediaRecorder = new MediaRecorder(stream, options);
     let chunks = [];
 
-    this.mediaRecorder.ondataavailable = (event) => {
-      if (event.data && event.data.size > 0) {
-        chunks.push(event.data);
-      }
-    };
+    // Store the video on stop
     this.mediaRecorder.onstop = async (event) => {
       const videoBuffer = new Blob(chunks, { type: "video/webm" });
       // Store the video
       await this.videoService.storeVideo(videoBuffer);
 
-      // reload the list
+      // Reload the list
       this.videos = this.videoService.videos;
       this.changeDetector.detectChanges();
     };
+
+    // Store chunks of recorded video
+    this.mediaRecorder.ondataavailable = (event) => {
+      if (event.data && event.data.size > 0) {
+        chunks.push(event.data);
+      }
+    };
+
+    // Start recording wth chunks of data
+    this.mediaRecorder.start(100);
+    this.isRecording = true;
   }
 
   stopRecord() {
