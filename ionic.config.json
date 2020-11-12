@@ -1,0 +1,7 @@
+{
+  "name": "academyVideo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
